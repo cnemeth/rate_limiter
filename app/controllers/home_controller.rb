@@ -9,6 +9,6 @@ class HomeController < ApplicationController
   private
 
   def record_rate_limit_request
-    RateLimit.create(ip_address: request.remote_if, requested_at: Time.zone.now)
+    RateLimit.create(ip_address: request.remote_ip, requested_at: Time.zone.now)
   end
 end
