@@ -40,7 +40,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
   gem 'pry-byebug'
+  gem 'faker'
   gem 'awesome_print'
+  gem 'annotate'
 end
 
 group :development do
@@ -54,6 +56,7 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
