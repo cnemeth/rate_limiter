@@ -1,5 +1,5 @@
 {
-  "name": "rails51example",
+  "name": "rate_limiter",
   "private": true,
   "dependencies": {
     "autoprefixer": "^6.7.7",

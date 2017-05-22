@@ -10,7 +10,7 @@ class HomeController < ApplicationController
   private
 
   def check_rate_limit
-    rate_limiter = RateLimiter.new(ip_address: request.remote_ip)
+    rate_limiter = LimitRequestRate.new(ip_address: request.remote_ip)
     render plain: rate_limiter.time_until_next_request_permitted, status: 429 unless rate_limiter.request_permitted?
   end
 
