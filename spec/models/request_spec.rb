@@ -41,6 +41,15 @@ RSpec.describe Request, type: :model do
       end
     end
 
+    it 'orders the requests by requested at, newest to oldest' do
+      requests = Request.requests_for_ip_during_time_period(request_ip)
+      requests.each_with_index do |request, counter|
+        if counter < (requests.size - 1) # Don't try to compare the last one against something outside the array
+          expect(request.requested_at > requests[counter + 1].requested_at).to eq(true)
+        end
+      end
+    end
+
     it 'can count up requests for over a time perior' do
       expect(Request.within_interval(60.minutes.ago).size).to eq 20
     end
@@ -51,16 +60,8 @@ RSpec.describe Request, type: :model do
     end
 
     it 'can count requests for a requesting IP address over a time period' do
-      expect(Request.request_for_ip_during_time_period(request_ip).size).to eq 10
-      expect(Request.request_for_ip_during_time_period(request_ip, time_period: 6.minutes.ago).size).to eq 5
-    end
-
-    it 'reports if a request is permitted' do
-      expect(Request.request_permitted(request_ip)).to eq true
-    end
-
-    it 'reports if a request is not permitted' do
-      expect(Request.request_permitted(request_ip, maximum_requests: 1, time_period: 5.minutes.ago)).to eq false
+      expect(Request.requests_for_ip_during_time_period(request_ip).size).to eq 10
+      expect(Request.requests_for_ip_during_time_period(request_ip, time_period: 6.minutes.ago).size).to eq 5
     end
   end
 end
