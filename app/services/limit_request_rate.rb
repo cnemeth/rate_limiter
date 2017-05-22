@@ -1,4 +1,4 @@
-class RateLimiter
+class LimitRequestRate
   attr_accessor :ip_address, :maximum_requests, :time_period
   attr_reader :requests
 

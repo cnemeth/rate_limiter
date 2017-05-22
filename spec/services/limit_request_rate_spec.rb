@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe RateLimiter, type: :model do
+RSpec.describe LimitRequestRate do
 
   let(:ip_address) { '127.0.0.1' }
-  let!(:rate_limiter) { RateLimiter.new(ip_address: ip_address) }
+  let!(:rate_limiter) { LimitRequestRate.new(ip_address: ip_address) }
 
   it 'knows the IP address that the rate limit is for' do
     expect(rate_limiter.ip_address).to eq ip_address
@@ -22,9 +22,9 @@ RSpec.describe RateLimiter, type: :model do
         create(:request, ip_address: other_ip, requested_at: number.minutes.ago)
       end
     end
-    let(:valid_rate_limiter) { RateLimiter.new(ip_address: ip_address) }
+    let(:valid_rate_limiter) { LimitRequestRate.new(ip_address: ip_address) }
     let(:invalid_rate_limiter) {
-      RateLimiter.new(ip_address: ip_address, maximum_requests: 5, time_period: 10.minutes.ago)
+      LimitRequestRate.new(ip_address: ip_address, maximum_requests: 5, time_period: 10.minutes.ago)
     }
 
     it 'can get the requests for a time period' do
