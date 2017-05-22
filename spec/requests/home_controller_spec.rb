@@ -13,5 +13,21 @@ RSpec.describe HomeController, type: :request do
     }.to change{Request.count}.by(1)
   end
 
-  it "returns a 429 and a failure message when the rate limit is exceeded"
+  context 'hitting the rate limit' do
+    let!(:request) do
+      (1..99).each do |number|
+        create(:request, ip_address: '127.0.0.1', requested_at: number.seconds.ago)
+      end
+    end
+
+    it "returns a 429 if the rate limit is exceeded" do
+      get home_index_path
+      expect(response.status).to eq 200
+      expect(response.body).to eq 'ok'
+
+      get home_index_path
+      expect(response.status).to eq 429
+      expect(response.body).to include "Rate limit exceeded, please try again"
+    end
+  end
 end
