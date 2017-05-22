@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-  after_action :record_rate_limit_request
+  after_action :record_request
 
   def index
     render plain: 'ok'
@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
   private
 
-  def record_rate_limit_request
-    RateLimit.create(ip_address: request.remote_ip, requested_at: Time.zone.now)
+  def record_request
+    Request.create(ip_address: request.remote_ip, requested_at: Time.zone.now)
   end
 end

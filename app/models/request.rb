@@ -1,13 +1,13 @@
 # == Schema Information
 #
-# Table name: rate_limits
+# Table name: requests
 #
 #  id           :integer          not null, primary key
 #  ip_address   :string
 #  requested_at :datetime
 #
 
-class RateLimit < ActiveRecord::Base
+class Request < ActiveRecord::Base
   validates :ip_address, :requested_at, presence: true
 
   scope :within_interval, -> (threshold_time) { where("requested_at > ?", threshold_time) }
